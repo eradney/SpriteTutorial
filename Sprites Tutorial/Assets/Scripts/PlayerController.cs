@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private int count;
     private int lives;
     private bool facingRight = true;
+    private bool isJumping;
 
     public float speed;
     public float jumpForce;
@@ -72,14 +73,18 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.collider.tag == "Ground")
+        if (collision.collider.tag == "Ground")
         {
-            if(Input.GetKey(KeyCode.UpArrow))
+            Debug.Log("OnGround");
+            isJumping = false;
+            if (anim.GetInteger("State") == 2)
+                anim.SetInteger("State", 0);
+            if (Input.GetKey(KeyCode.UpArrow))
             {
                 rb2d.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
                 anim.SetInteger("State", 2);
+                isJumping = true;
             }
-
         }
     }
 
